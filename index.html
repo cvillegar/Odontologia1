@@ -29,10 +29,9 @@
         <a href="#servicios">Servicios</a>
         <a href="#casos">Casos</a>
         <a href="#doctora">La doctora</a>
-        <a href="#agendar">Agendar</a>
         <a href="#preguntas">Preguntas</a>
         <a href="#ubicacion">Ubicación</a>
-        <a href="https://calendar.app.google/8KL5nkFPS9Hx1CdFA" class="btn btn--small" target="_blank" rel="noopener">Agendar cita</a>
+        <a href="https://wa.me/573180774500?text=Hola%2C%20quisiera%20agendar%20una%20valoraci%C3%B3n" class="btn btn--small" target="_blank" rel="noopener">Agendar cita</a>
       </nav>
     </div>
   </header>
@@ -50,7 +49,7 @@
             completo, explicaciones claras y resultados naturales que duran.
           </p>
           <div class="hero__actions">
-            <a href="https://calendar.app.google/8KL5nkFPS9Hx1CdFA" class="btn" target="_blank" rel="noopener">Agendar valoración</a>
+            <a href="https://wa.me/573180774500?text=Hola%2C%20quisiera%20agendar%20una%20valoraci%C3%B3n" class="btn" target="_blank" rel="noopener">Agendar valoración</a>
             <a href="#servicios" class="btn btn--ghost">Ver servicios</a>
           </div>
           <ul class="hero__points">
@@ -164,64 +163,6 @@
       </div>
     </section>
 
-    <!-- ===== Agendar cita ===== -->
-    <section id="agendar" class="section">
-      <div class="container container--narrow">
-        <header class="section__head">
-          <p class="eyebrow">Agendar cita</p>
-          <h2>Solicite su valoración</h2>
-          <p>Vea los horarios disponibles y reserve su cita en línea. Recibirá la confirmación en su correo.</p>
-        </header>
-
-        <div class="booking-online">
-          <a href="https://calendar.app.google/8KL5nkFPS9Hx1CdFA" class="btn btn--large" target="_blank" rel="noopener">Ver horarios y reservar</a>
-          <p class="booking__hint">Solo se muestran las horas libres de la agenda de la doctora.</p>
-        </div>
-
-        <details class="booking-alt">
-          <summary>¿Prefiere solicitar su cita por WhatsApp?</summary>
-        <form class="booking" id="booking" novalidate>
-          <div class="field">
-            <label for="b-nombre">Nombre completo</label>
-            <input id="b-nombre" name="nombre" type="text" autocomplete="name" required>
-          </div>
-          <div class="field">
-            <label for="b-servicio">Servicio</label>
-            <select id="b-servicio" name="servicio" required>
-              <option value="Valoración general">Valoración general</option>
-              <option>Diseño de sonrisa</option>
-              <option>Carillas dentales</option>
-              <option>Coronas dentales</option>
-              <option>Prótesis fijas y removibles</option>
-              <option>Implantes dentales</option>
-              <option>Placas para bruxismo</option>
-            </select>
-          </div>
-          <div class="field-row">
-            <div class="field">
-              <label for="b-fecha">Fecha</label>
-              <input id="b-fecha" name="fecha" type="date" required>
-            </div>
-            <div class="field">
-              <label for="b-hora">Hora</label>
-              <select id="b-hora" name="hora" required disabled>
-                <option value="">Elija primero la fecha</option>
-              </select>
-            </div>
-          </div>
-          <div class="field">
-            <label for="b-nota">Comentario <span class="optional">(opcional)</span></label>
-            <textarea id="b-nota" name="nota" rows="3" placeholder="Cuéntenos brevemente el motivo de su consulta"></textarea>
-          </div>
-          <p class="booking__error" id="b-error" role="alert" hidden></p>
-          <button type="submit" class="btn">Solicitar cita por WhatsApp</button>
-          <p class="booking__hint">Atendemos de lunes a viernes de 8:00 a.m. a 12:00 m. y de 1:00 a 5:00 p.m., y los sábados de 8:00 a.m. a 12:00 m. La cita queda confirmada cuando le respondamos.</p>
-          <noscript><p class="booking__hint">Para usar este formulario active JavaScript, o escríbanos directamente al <a href="https://wa.me/573180774500">WhatsApp +57 318 077 4500</a>.</p></noscript>
-        </form>
-        </details>
-      </div>
-    </section>
-
     <!-- ===== Preguntas frecuentes ===== -->
     <section id="preguntas" class="section section--alt">
       <div class="container container--narrow">
@@ -322,87 +263,6 @@
     </svg>
     <span class="whatsapp__label">Escríbanos</span>
   </a>
-
-  <script>
-  (function () {
-    var WA = "573180774500";
-    var form = document.getElementById("booking");
-    var fecha = document.getElementById("b-fecha");
-    var hora = document.getElementById("b-hora");
-    var error = document.getElementById("b-error");
-    var DIAS = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
-
-    function pad(n) { return (n < 10 ? "0" : "") + n; }
-    function iso(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
-    function label(h, m) {
-      var suf = h < 12 ? "a.m." : (h === 12 ? "m." : "p.m.");
-      var h12 = h > 12 ? h - 12 : h;
-      return h12 + ":" + pad(m) + " " + suf;
-    }
-    // Bloques de 30 minutos según el horario del consultorio.
-    function slots(day) {
-      if (day === 0) return [];
-      var ranges = day === 6 ? [[8, 12]] : [[8, 12], [13, 17]];
-      var out = [];
-      ranges.forEach(function (r) {
-        for (var h = r[0]; h < r[1]; h++) { out.push([h, 0]); out.push([h, 30]); }
-      });
-      return out;
-    }
-
-    var today = new Date();
-    var max = new Date(); max.setDate(max.getDate() + 60);
-    fecha.min = iso(today);
-    fecha.max = iso(max);
-
-    function showError(msg) { error.textContent = msg; error.hidden = !msg; }
-
-    fecha.addEventListener("change", function () {
-      showError("");
-      hora.innerHTML = "";
-      if (!fecha.value) { hora.disabled = true; return; }
-      var p = fecha.value.split("-");
-      var d = new Date(+p[0], +p[1] - 1, +p[2]);
-      var list = slots(d.getDay());
-      var now = new Date();
-      list = list.filter(function (s) {
-        var t = new Date(d); t.setHours(s[0], s[1], 0, 0);
-        return t - now > 2 * 60 * 60 * 1000; // al menos 2 horas de anticipación
-      });
-      if (!list.length) {
-        hora.disabled = true;
-        hora.innerHTML = '<option value="">Sin horarios ese día</option>';
-        showError(d.getDay() === 0 ? "Los domingos no atendemos. Elija otro día." : "No quedan horarios disponibles ese día. Elija otra fecha.");
-        return;
-      }
-      hora.disabled = false;
-      hora.innerHTML = '<option value="">Elija la hora</option>' + list.map(function (s) {
-        var l = label(s[0], s[1]);
-        return '<option value="' + l + '">' + l + "</option>";
-      }).join("");
-    });
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var nombre = form.nombre.value.trim();
-      if (!nombre) { showError("Escriba su nombre."); form.nombre.focus(); return; }
-      if (!fecha.value) { showError("Elija la fecha."); fecha.focus(); return; }
-      if (!hora.value) { showError("Elija la hora."); hora.focus(); return; }
-      showError("");
-      var p = fecha.value.split("-");
-      var d = new Date(+p[0], +p[1] - 1, +p[2]);
-      var fechaTxt = DIAS[d.getDay()] + " " + d.getDate() + "/" + pad(d.getMonth() + 1) + "/" + d.getFullYear();
-      var msg = "Hola, quisiera agendar una cita.\n" +
-        "• Nombre: " + nombre + "\n" +
-        "• Servicio: " + form.servicio.value + "\n" +
-        "• Fecha: " + fechaTxt + "\n" +
-        "• Hora: " + hora.value;
-      var nota = form.nota.value.trim();
-      if (nota) msg += "\n• Comentario: " + nota;
-      window.open("https://wa.me/" + WA + "?text=" + encodeURIComponent(msg), "_blank", "noopener");
-    });
-  })();
-  </script>
 
 </body>
 </html>
