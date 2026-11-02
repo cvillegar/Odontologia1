@@ -347,6 +347,23 @@ p  { margin: 0 0 1em; }
   .field-row { grid-template-columns: 1fr 1fr; }
 }
 
+.booking-online {
+  display: grid; justify-items: start; gap: 12px;
+  padding: 28px 24px;
+  border-radius: var(--radius);
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  margin-bottom: 20px;
+}
+.btn--large { min-height: 56px; padding: .9rem 2rem; font-size: 1.05rem; }
+.booking-alt > summary {
+  cursor: pointer;
+  padding: .75rem 0;
+  font-weight: 600;
+  color: var(--primary);
+}
+.booking-alt[open] > summary { margin-bottom: 12px; }
+
 /* ---------- Preguntas frecuentes ---------- */
 .faq { display: grid; gap: 12px; }
 .faq details {
